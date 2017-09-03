@@ -1,3 +1,5 @@
 <resources>
-    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="list_item_height">72dp</dimen>
+    <dimen name="list_item_padding">16dp</dimen>
+    <dimen name="switch_margin_start">8dp</dimen>
 </resources>
