@@ -1,6 +1,6 @@
 package jp.cordea.base
 
-import io.reactivex.Observable
+import io.reactivex.Flowable
 
 /**
  * Created by cordea on 2017/09/03.
@@ -23,5 +23,5 @@ class LightRepository : Repository<Boolean>(false, "light") {
         on()
     }
 
-    val value: Observable<Boolean> = getValueChangedObservable()
+    val value: Flowable<Boolean> = getValueChangedFlowable()
 }

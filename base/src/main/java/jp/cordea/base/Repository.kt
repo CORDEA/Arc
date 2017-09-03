@@ -1,6 +1,8 @@
 package jp.cordea.base
 
 import com.google.firebase.database.*
+import io.reactivex.BackpressureStrategy
+import io.reactivex.Flowable
 import io.reactivex.Observable
 
 /**
@@ -18,26 +20,26 @@ open class Repository<T: Any>(private val default: T, name: String) {
         ref = database.getReference("arc/" + name)
     }
 
-    protected fun getValueChangedObservable(): Observable<T> =
-        Observable
-                .create<T> { emitter ->
-                    ref.addValueEventListener(object : ValueEventListener {
-                        override fun onCancelled(p0: DatabaseError?) {
-                            p0?.toException()?.let {
-                                emitter.onError(it)
-                            }
-                        }
-
-                        override fun onDataChange(p0: DataSnapshot?) {
-                            p0?.apply {
-                                getValue(default::class.java)?.let {
-                                    currentValue = it
-                                    emitter.onNext(it)
+    protected fun getValueChangedFlowable(): Flowable<T> =
+            Flowable
+                    .create({ emitter ->
+                        ref.addValueEventListener(object : ValueEventListener {
+                            override fun onCancelled(p0: DatabaseError?) {
+                                p0?.toException()?.let {
+                                    emitter.onError(it)
                                 }
                             }
-                        }
-                    })
-                }
+
+                            override fun onDataChange(p0: DataSnapshot?) {
+                                p0?.apply {
+                                    getValue(default::class.java)?.let {
+                                        currentValue = it
+                                        emitter.onNext(it)
+                                    }
+                                }
+                            }
+                        })
+                    }, BackpressureStrategy.LATEST)
 
     fun clear() {
         ref.removeValue()
