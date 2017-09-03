@@ -17,6 +17,7 @@
 
         <android.support.v7.widget.SwitchCompat
             android:id="@+id/lightSwitch"
+            android:enabled="false"
             android:layout_marginStart="@dimen/switch_margin_start"
             android:layout_centerVertical="true"
             android:layout_alignParentEnd="true"
