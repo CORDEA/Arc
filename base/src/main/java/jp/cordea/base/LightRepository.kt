@@ -7,11 +7,11 @@ import io.reactivex.Flowable
  */
 class LightRepository : Repository<Boolean>(false, "light") {
 
-    private fun on() {
+    fun on() {
         ref.setValue(true)
     }
 
-    private fun off() {
+    fun off() {
         ref.setValue(false)
     }
 
