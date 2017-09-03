@@ -3,15 +3,11 @@ package jp.cordea.base
 import com.google.firebase.database.*
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
-import io.reactivex.Observable
 
 /**
  * Created by cordea on 2017/09/03.
  */
 open class Repository<T: Any>(private val default: T, name: String) {
-
-    protected var currentValue: T = default
-        private set
 
     protected val ref: DatabaseReference
 
@@ -33,7 +29,6 @@ open class Repository<T: Any>(private val default: T, name: String) {
                             override fun onDataChange(p0: DataSnapshot?) {
                                 p0?.apply {
                                     getValue(default::class.java)?.let {
-                                        currentValue = it
                                         emitter.onNext(it)
                                     }
                                 }

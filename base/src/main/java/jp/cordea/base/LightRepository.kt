@@ -15,13 +15,5 @@ class LightRepository : Repository<Boolean>(false, "light") {
         ref.setValue(false)
     }
 
-    fun switch() {
-        if (currentValue) {
-            off()
-            return
-        }
-        on()
-    }
-
     val value: Flowable<Boolean> = getValueChangedFlowable()
 }
